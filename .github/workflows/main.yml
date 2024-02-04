@@ -28,6 +28,10 @@ jobs:
             MYSQL_ROOT_PASSWORD: uwuowo
         ports:
           - 3306:3306
+      redis:
+        image: redis:7.2.4-alpine
+        ports:
+          - 6379:6379
     steps:
     - uses: actions/checkout@v2
 
@@ -37,7 +41,7 @@ jobs:
         go-version: 1.20.1
     
     - name: Copy config.json
-      run: mv server/config.json.test serverconfig.json
+      run: cp server/config.json.test server/config.json
 
     - name: Build
       run: cd server && go build 
@@ -46,7 +50,7 @@ jobs:
       run: cd server/command/create_schema && go run create_schema.go
 
     - name: Migrate
-      run: cd server/command/gomigrate && go run server/gomigrate.go --test=true
+      run: cd server/command/gomigrate && go run gomigrate.go --test=true
 
     - name: Test
-      run: go test ./test/...
+      run: cd server && go test ./test/...

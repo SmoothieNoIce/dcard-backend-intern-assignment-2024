@@ -2,9 +2,9 @@ package main
 
 import (
 	"database/sql"
-	"github/SmoothieNoIce/dcard-backend-intern-assignment-2024/config"
 	"flag"
 	"fmt"
+	"github/SmoothieNoIce/dcard-backend-intern-assignment-2024/config"
 	"log"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -14,11 +14,8 @@ import (
 )
 
 func main() {
-
 	testPtr := flag.Bool("test", false, "using test databse")
 	flag.Parse()
-
-	dbName := ""
 
 	if testPtr != nil {
 		if *testPtr {
@@ -28,7 +25,7 @@ func main() {
 		}
 	}
 
-	dbName := dbName = config.AppConfig.Database.DBName
+	dbName := config.AppConfig.Database.DBName
 
 	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4&parseTime=True&loc=Local&multiStatements=true",
 		config.AppConfig.Database.User,

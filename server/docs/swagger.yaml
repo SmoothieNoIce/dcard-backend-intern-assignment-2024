@@ -1,0 +1,168 @@
+basePath: /api/v1
+definitions:
+  controllers.FormAddAdvertistment:
+    properties:
+      conditions:
+        $ref: '#/definitions/controllers.FormAddAdvertistmentCondition'
+      endAt:
+        example: "2023-12-31T16:00:00.000Z"
+        type: string
+      startAt:
+        example: "2023-12-10T03:00:00.000Z"
+        type: string
+      title:
+        example: 酷酷廣告1
+        type: string
+    required:
+    - conditions
+    - endAt
+    - startAt
+    - title
+    type: object
+  controllers.FormAddAdvertistmentCondition:
+    properties:
+      ageEnd:
+        example: 30
+        maximum: 100
+        minimum: 1
+        type: integer
+      ageStart:
+        example: 20
+        maximum: 100
+        minimum: 1
+        type: integer
+      country:
+        example:
+        - TW
+        - JP
+        items:
+          type: string
+        type: array
+      gender:
+        example:
+        - M
+        - F
+        items:
+          type: string
+        type: array
+      platform:
+        example:
+        - ANDROID
+        - IOS
+        items:
+          type: string
+        type: array
+    type: object
+  resources.JSONResult:
+    properties:
+      code:
+        type: integer
+      data: {}
+      message:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: dcard intern assignment.
+  title: Meow Meow API
+  version: v1
+paths:
+  /ad:
+    get:
+      parameters:
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Age
+        in: query
+        name: age
+        type: integer
+      - description: Gender
+        enum:
+        - M
+        - F
+        in: query
+        name: gender
+        type: string
+      - description: Country
+        enum:
+        - TW
+        - JP
+        in: query
+        name: country
+        type: string
+      - description: Platform
+        enum:
+        - ANDROID
+        - IOS
+        - WEB
+        in: query
+        name: platform
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/resources.JSONResult'
+            - properties:
+                data:
+                  type: object
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/resources.JSONResult'
+            - properties:
+                data:
+                  type: object
+              type: object
+      summary: 廣告列表
+      tags:
+      - ad
+    post:
+      parameters:
+      - description: 廣告資料
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.FormAddAdvertistment'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/resources.JSONResult'
+            - properties:
+                data:
+                  type: object
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/resources.JSONResult'
+            - properties:
+                data:
+                  type: object
+              type: object
+      summary: 新增廣告
+      tags:
+      - ad
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
