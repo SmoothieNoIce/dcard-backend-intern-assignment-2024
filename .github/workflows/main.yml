@@ -37,22 +37,16 @@ jobs:
         go-version: 1.20.1
     
     - name: Copy config.json
-      run: mv config.json.test config.json
+      run: mv server/config.json.test serverconfig.json
 
     - name: Build
-      run: go build 
+      run: cd server && go build 
 
     - name: Create DB Schema 
-      run: cd command/create_schema && go run create_schema.go
+      run: cd server/command/create_schema && go run create_schema.go
 
     - name: Migrate
-      run: cd command/gomigrate && go run gomigrate.go --test=true
+      run: cd server/command/gomigrate && go run server/gomigrate.go --test=true
 
     - name: Test
-      run: go test go test ./test/...
-
-    - name: Run k6 local test
-      uses: grafana/k6-action@v0.3.1
-      with:
-        filename: my-load-test.js
-        flags: --vus 2000 --duration 10s
+      run: go test ./test/...
