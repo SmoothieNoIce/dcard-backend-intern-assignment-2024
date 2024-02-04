@@ -1,0 +1,20 @@
+{
+  "app_env": "production",
+  "time_zone": 8,
+  "host": "local-dev.dcard-backend-intern-assignment.owo",
+  "database": {
+    "type": "mysql",
+    "host": "db:3306",
+    "db_name": "dcard-backend-intern-assignment-2024_test",
+    "user": "root",
+    "password": "uwuowo"
+  },
+  "redis": {
+    "host": "redis:6379",
+    "password": ""
+  },
+  "detail": {
+    "max_ad_everyday": 3000,
+    "max_active_ad": 1000
+  }
+}

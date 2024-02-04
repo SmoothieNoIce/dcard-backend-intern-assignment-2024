@@ -1,0 +1,58 @@
+# This is a basic workflow to help you get started with Actions
+
+name: backend-workflow
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  test-and-deploy:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8
+        env:
+            MYSQL_DATABASE: dcard-backend-intern-assignment-2024_test
+            MYSQL_HOST: 127.0.0.1
+            MYSQL_USER: admin
+            MYSQL_PASSWORD: uwuowo
+            MYSQL_ROOT_PASSWORD: uwuowo
+        ports:
+          - 3306:3306
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.20.1
+    
+    - name: Copy config.json
+      run: mv config.json.test config.json
+
+    - name: Build
+      run: go build 
+
+    - name: Create DB Schema 
+      run: cd command/create_schema && go run create_schema.go
+
+    - name: Migrate
+      run: cd command/gomigrate && go run gomigrate.go --test=true
+
+    - name: Test
+      run: go test go test ./test/...
+
+    - name: Run k6 local test
+      uses: grafana/k6-action@v0.3.1
+      with:
+        filename: my-load-test.js
+        flags: --vus 2000 --duration 10s

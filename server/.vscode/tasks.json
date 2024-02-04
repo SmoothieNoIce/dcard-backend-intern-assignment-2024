@@ -1,0 +1,23 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "unit test",
+            "command": "go",
+            "args": [
+                "test",
+                "dcard-backend-intern-assignment-2024/test/unit",
+                "-v",
+                "-cover=true"
+            ],
+            "type": "shell",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}

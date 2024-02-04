@@ -1,0 +1,47 @@
+version: "3.8"
+
+services:
+  db:  
+    platform: linux/x86_64
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_DATABASE: "dcard-backend-intern-assignment-2024"
+      MYSQL_USER: "user"
+      MYSQL_PASSWORD: "uwuowo"
+      MYSQL_ROOT_PASSWORD: "uwuowo"
+    cap_add:
+      - SYS_NICE  # CAP_SYS_NICE
+    ports:
+      - 127.0.0.1:3306:3306
+    volumes:
+      - ./mysql/customdb.cnf:/etc/mysql/conf.d/custom.cnf
+      - mysql_db_vol:/var/lib/mysql
+    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
+
+  redis:
+    build: ./redis
+    ports:
+      - 127.0.0.1:6379:6379
+    restart: always
+      
+  server:
+    build:
+        context: .
+        dockerfile: ./server/Dockerfile
+    volumes:
+      - .:/usr/src/dcard-backend-intern-assignment-2024
+    ports:
+      - 127.0.0.1:8000:8000
+    tty: true
+  
+  nginx:
+    build: ./nginx
+    restart: always
+    ports:
+      - "8788:80"
+    volumes:
+      - ./nginx/log:/var/log/nginx
+
+volumes:
+  mysql_db_vol:

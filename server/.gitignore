@@ -1,0 +1,7 @@
+config.json
+vendor/
+storage/logs/*
+!storage/logs/.gitkeep
+__debug_bin*
+cpu.profile
+docs/*
