@@ -16,24 +16,26 @@
 - Nginx
 - Redis 7.2.4
 - Grafana K6
+- grafana/xk6-dashboard
 
 ## Assignment Idea
 
 ### 請撰寫適當的 test
 
-我在這裡分別寫了四個測試對應 assignment 內的注意事項
-- 廣告列表測試(TestGetAdvertistmentList)
+我在這裡分別寫了以下測試對應 assignment 內的注意事項
+- 廣告列表測試(TestGetAdvertistmentList, TestGetAdvertistmentListNotActive)
 - 新增廣告測試(TestCreateAdvertistment)
 - 每日新增廣告測試(TestMaxAdEveryday)
 - 總活耀廣告測試(TestMaxActiveAd)
 
 ### 提供 Public API 能超過 10,000 Requests Per Second 的設計
 
-![image](./assets/k6_screenshot.png)
+![image](./assets/k6_cmd_screenshot.png)
+![image](./assets/k6_dashboard.png)
 
 - 這邊使用 Redis 來對廣告列表進行緩存，每次的請求我會將每個 Query 當作參數作為 Redis 的 Key， Value 為搜尋結果
 
-- 在負載測試中，我使用 Grafana K6 來對 8000 port 上的 API Server 進行負載測試，結果為可承受 10000 以上的 RPS
+- 在負載測試中，我使用 Grafana K6 來對 8000 port 上的 API Server 進行負載測試，模擬使用者使用不同的 Parameters 來發送 Http request 獲取廣告列表，結果為可承受 10000 以上的 RPS
 
 ###  同時存在系統的總活躍廣告數量 (也就是 StartAt < NOW < EndAt) < 1000
 
