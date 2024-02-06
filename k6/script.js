@@ -16,7 +16,7 @@ export const options = {
 	},
 };
 
-let urlString = 'http://' + config.host;
+let urlString = 'http://' + config.host + "/api/v1/ad";
 
 const limits = [5, 10, 15];
 const genders = ['M', 'F'];
