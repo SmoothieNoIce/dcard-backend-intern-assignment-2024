@@ -4,13 +4,13 @@
   "host": "127.0.0.1",
   "database": {
     "type": "mysql",
-    "host": "db:3306",
+    "host": "127.0.0.1:3306",
     "db_name": "dcard-backend-intern-assignment-2024_test",
     "user": "root",
     "password": "uwuowo"
   },
   "redis": {
-    "host": "redis:6379",
+    "host": "127.0.0.1:6379",
     "password": ""
   },
   "detail": {

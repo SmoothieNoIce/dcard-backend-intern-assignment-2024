@@ -29,7 +29,7 @@ func TestGetAdvertistmentList(t *testing.T) {
 	router := route.Setup()
 
 	total := 5
-	_ = factory.FactoryAdvertistments(total)
+	_ = factory.FactoryAdvertistments(total, nil, nil)
 
 	w := unit.PerformRequest(router, "GET", "/api/v1/ad", nil)
 	assert.Equal(t, http.StatusOK, w.Code, "wrong status code")
@@ -39,6 +39,28 @@ func TestGetAdvertistmentList(t *testing.T) {
 	assert.NoError(t, err)
 
 	assert.Equal(t, total, len(response.Data), "they should be equal")
+
+	t.Cleanup(cleanup)
+}
+
+func TestGetAdvertistmentListNotActive(t *testing.T) {
+	cleanup := unit.SetupIntegrationDB(t)
+	router := route.Setup()
+
+	total := 5
+	nowsub := time.Now().Add(-3 * time.Hour)
+	nowsub2 := time.Now().Add(-1 * time.Hour)
+
+	_ = factory.FactoryAdvertistments(total, &nowsub, &nowsub2)
+
+	w := unit.PerformRequest(router, "GET", "/api/v1/ad", nil)
+	assert.Equal(t, http.StatusOK, w.Code, "wrong status code")
+
+	var response TestGetTagListJSONResult
+	err := json.Unmarshal([]byte(w.Body.Bytes()), &response)
+	assert.NoError(t, err)
+
+	assert.Equal(t, 0, len(response.Data), "list should be 0")
 
 	t.Cleanup(cleanup)
 }
