@@ -240,8 +240,9 @@ func GetAdvertistmentList(offset int, limit int, age *int, gender *GenderModel, 
 	if platform != nil {
 		tx = tx.Where("FIND_IN_SET(?,platform)>0", platform)
 	}
+	now := time.Now()
 
-	err := tx.Scopes(Paginate(offset, limit)).Order("end_at asc").Find(&advertistments).Error
+	err := tx.Scopes(Paginate(offset, limit), WhereAdIsActived(now, now)).Order("end_at asc").Find(&advertistments).Error
 	if err != nil {
 		return advertistments, 0, err
 	}
