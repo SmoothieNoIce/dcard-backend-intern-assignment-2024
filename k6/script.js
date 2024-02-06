@@ -33,7 +33,7 @@ export default function () {
 	for (let i = 0; i < 10; i++) {
         // 用 new URL 效能會變差
 		http.get(
-			`${urlString}?limit=${i}&offset=${limit}&age=${age}&gender=${gender}&country=${country}&platform=${platform}`,
+			`${urlString}?limit=${limit}&offset=${i}&age=${age}&gender=${gender}&country=${country}&platform=${platform}`,
 			{
 				tags: {
 					name: 'GetAd'
