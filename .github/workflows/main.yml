@@ -41,7 +41,7 @@ jobs:
         go-version: 1.20.1
     
     - name: Copy config.json
-      run: cp server/config.json.ci server/config.json.test
+      run: cp server/config.json.ci server/config.json.test && cp server/config.json.ci server/config.json
 
     - name: Build
       run: cd server && go build 
