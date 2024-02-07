@@ -18,7 +18,30 @@
 - Grafana K6
 - grafana/xk6-dashboard
 
+## Usage
+
+```
+// build docker containers
+$ make
+
+// enter server container
+$ docker exec -it <server_container> bash
+
+// edit config.json
+$ cp config.json.example config.json
+$ vim config.json
+
+// create schema
+$ cd command/create/schema && go run create_schema.go
+
+// run server
+$ make migrate-up
+$ go run main.go
+```
+
 ## Assignment Idea
+
+### 請對這兩組 API 進行合理的參數驗證和錯誤處理
 
 ### 請撰寫適當的 test
 
@@ -48,8 +71,3 @@ SELECT count(*) FROM `advertistments` WHERE ('2024-05-19 03:00:00' between start
 ###  每天 create 的廣告數量不會超過 3000 個
 
 - 計算 created_at 屬於今天的的廣告數是否為 3000 以上
-
-## 其他
-
-好累喔待補
-我先玩一下P3R

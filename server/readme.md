@@ -1,17 +1,25 @@
 # Dcard Backend Intern Assignment 2024 server
 
-### How to run this project
+### Usage
 
 ```
-make 
+$ cp config.json.example config.json
+$ vim config.json
+$ make 
 ```
 
 ### Migration
 
+####  create schema
+```
+$ cd command/create_schema
+$ go run create_schema.go
+```
+
 ####  create migration
 
 ```
-migrate create -ext sql -dir database/migration create_cool_table
+$ migrate create -ext sql -dir $ database/migration create_cool_table
 ```
 
 ### Tools
@@ -19,9 +27,9 @@ migrate create -ext sql -dir database/migration create_cool_table
 #### migration commands
 
 ```
-make migrate-up
-make migrate-down
-make migrate-version
+$ make migrate-up
+$ make migrate-down
+$ make migrate-version
 ```
 
 #### migrate failed
@@ -32,4 +40,4 @@ https://github.com/golang-migrate/migrate/blob/master/FAQ.md#what-does-dirty-dat
 
 #### url
 
-http://127.0.0.1/swagger/index.html#
+http://127.0.0.1:8788/swagger/index.html#
