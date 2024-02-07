@@ -211,7 +211,7 @@ func (ad Advertistment) Create() error {
 
 func WhereAdIsActived(startAt time.Time, endAt time.Time) func(db *gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {
-		return db.Where("start_at < ? AND end_at > ?", startAt, endAt)
+		return db.Where("start_at <= ? AND end_at >= ?", startAt, endAt)
 	}
 }
 
@@ -229,7 +229,7 @@ func GetAdvertistmentList(offset int, limit int, age *int, gender *GenderModel, 
 	var count int64
 	tx := db.Model(&Advertistment{})
 	if age != nil {
-		tx = tx.Where("age_start < ? and age_end > ?", age, age)
+		tx = tx.Where("age_start <= ? and age_end >= ?", age, age)
 	}
 	if gender != nil {
 		tx = tx.Where("FIND_IN_SET(?,gender)>0", gender)
